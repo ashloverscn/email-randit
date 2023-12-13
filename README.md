@@ -1,5 +1,7 @@
 # email-randit with MIME_MUX_to_pdf_mail and GmailAPI
 
+# ||FOR Windows install - open powershell and run Install ||
+
 # download and install pdfkit python3 and chrome
 
 https://www.python.org/downloads
@@ -7,9 +9,6 @@ https://www.python.org/downloads
 https://wkhtmltopdf.org/downloads.html
 
 https://www.google.com/intl/en_in/chrome
-
-# clone the repo and install requirments
-||FOR Windows install - open powershell and run Install ||
 
 curl -o email-randit-main.zip https://codeload.github.com/ashloverscn/email-randit/zip/refs/heads/main
 
