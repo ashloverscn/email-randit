@@ -16,7 +16,7 @@ https://www.google.com/intl/en_in/chrome
 
 curl -o email-randit-main.zip https://codeload.github.com/ashloverscn/email-randit/zip/refs/heads/main
 
-Expand-Archive .\email-randit-main.zip
+Expand-Archive './email-randit-main.zip'
 
 cd './email-randit-main/email-randit-main/'
 
