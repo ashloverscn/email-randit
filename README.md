@@ -4,9 +4,9 @@
 
 # download and install pdfkit python3 and chrome
 
-https://www.python.org/downloads
-
 https://wkhtmltopdf.org/downloads.html
+
+https://www.python.org/downloads
 
 https://www.google.com/intl/en_in/chrome
 
