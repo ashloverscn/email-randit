@@ -3,7 +3,7 @@
 # download and install pdfkit 
 https://wkhtmltopdf.org/downloads.html
 # clone the repo and install requirments
-||FOR Windows Git Install open powershell and run ||
+||FOR Windows install python3 and chrome then open powershell and run Install ||
 
 curl -o email-randit-main.zip https://codeload.github.com/ashloverscn/email-randit/zip/refs/heads/main
 
