@@ -4,6 +4,7 @@
 https://wkhtmltopdf.org/downloads.html
 # clone the repo and install requirments
 ||FOR Windows Git Install open powershell and run ||
+
 curl -o email-randit-main.zip https://codeload.github.com/ashloverscn/email-randit/zip/refs/heads/main
 
 Expand-Archive .\email-randit-main.zip
