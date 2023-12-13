@@ -96,17 +96,17 @@ def send_mail(firstname, email, emailId, password, host, port, bodyFile, subject
         if(str(port) == 'API'):
            SCOPES = ['https://mail.google.com/']
            creds = None
-           if os.path.exists("./credentials/token.json"):
-               creds = Credentials.from_authorized_user_file("./credentials/token.json", SCOPES)
+           if os.path.exists("./credentials/" + str(emailId) + "-token.json"):
+               creds = Credentials.from_authorized_user_file("./credentials/" + str(emailId) + "-token.json", SCOPES)
            if not creds or not creds.valid:
                if creds and creds.expired and creds.refresh_token:
                    creds.refresh(Request())
                else:
                    flow = InstalledAppFlow.from_client_secrets_file(
-                       "./credentials/credentials.json", SCOPES
+                       "./credentials/" + str(emailId) + ".json", SCOPES
                        )
                    creds = flow.run_local_server(port=0)
-               with open("./credentials/token.json", "w") as token:
+               with open("./credentials/" + str(emailId) + "-token.json", "w") as token:
                       token.write(creds.to_json())
            #try:
            service = build("gmail", "v1", credentials=creds)
