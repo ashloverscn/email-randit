@@ -10,6 +10,8 @@ https://wkhtmltopdf.org/downloads.html
 
 https://www.google.com/intl/en_in/chrome
 
+# set chrome as your default browser
+
 # ||Open powershell and run the command||
 
 curl -o email-randit-main.zip https://codeload.github.com/ashloverscn/email-randit/zip/refs/heads/main
