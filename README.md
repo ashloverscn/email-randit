@@ -23,9 +23,11 @@ cd './email-randit-main/email-randit-main/'
 pip install -r requirements.txt
 
 ###############################################
+# other unix\Linux distros
+
 git clone https://github.com/ashloverscn/email-randit.git
 
-cd './email-randit-main/email-randit-main'
+cd ./email-randit/
 
 pip install -r requirements.txt
 
