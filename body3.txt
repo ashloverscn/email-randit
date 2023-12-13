@@ -1,0 +1,12 @@
+Hello, 
+$email
+your refrence id #$invoice_no
+
+Payment of $390.00 USD made. If unauthorized this payment immediately contact at us 
+
+Please Track your order for confirmation. We will authorize the payment $390.00+1%(Vat) direct debit from your checking account within next 24Hrs.
+Kindly check the attachment below.
+
+
+Thanks,
+From Team.
