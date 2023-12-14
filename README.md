@@ -10,7 +10,7 @@ https://www.google.com/intl/en_in/chrome
 
 # set chrome as your default browser
 
-# use this binary if you want to just use it and skip everything else after this 
+# use this binary if you just want to use it and skip everything else after this 
 
 https://mega.nz/file/ky0jkA7K#GKBbu951rqtYaSx-_vsHevDlfDa8u0iFPbXwyBcgdRg
 
