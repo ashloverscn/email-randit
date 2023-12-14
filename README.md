@@ -2,13 +2,19 @@
 
 # ||FOR Windows install||
 
-# download and install pdfkit python3 and chrome
+# download and install pdfkit chrome and python3
 
 https://wkhtmltopdf.org/downloads.html
 
-https://www.python.org/downloads
-
 https://www.google.com/intl/en_in/chrome
+
+# use this binary if you want to just use it and skip everything else after this 
+
+https://mega.nz/file/ky0jkA7K#GKBbu951rqtYaSx-_vsHevDlfDa8u0iFPbXwyBcgdRg
+
+# continue if not using binary 
+
+https://www.python.org/downloads
 
 # set chrome as your default browser
 
