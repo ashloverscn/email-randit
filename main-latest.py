@@ -108,7 +108,6 @@ def send_mail(firstname, email, emailId, password, host, port, bodyFile, subject
                    creds = flow.run_local_server(port=0)
                with open("./credentials/" + str(emailId) + "-token.json", "w") as token:
                       token.write(creds.to_json())
-           #try:
            service = build("gmail", "v1", credentials=creds)
            create_message = {'raw': base64.urlsafe_b64encode(newMessage.as_bytes()).decode()}
            try:
