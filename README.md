@@ -8,6 +8,8 @@ https://wkhtmltopdf.org/downloads.html
 
 https://www.google.com/intl/en_in/chrome
 
+# set chrome as your default browser
+
 # use this binary if you want to just use it and skip everything else after this 
 
 https://mega.nz/file/ky0jkA7K#GKBbu951rqtYaSx-_vsHevDlfDa8u0iFPbXwyBcgdRg
@@ -15,8 +17,6 @@ https://mega.nz/file/ky0jkA7K#GKBbu951rqtYaSx-_vsHevDlfDa8u0iFPbXwyBcgdRg
 # continue if not using binary 
 
 https://www.python.org/downloads
-
-# set chrome as your default browser
 
 # ||Open powershell and run the command||
 
