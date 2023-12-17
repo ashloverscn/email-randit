@@ -23,7 +23,12 @@ import pdfkit
 import os
 import os.path
 import string
+from datetime import date
+import uuid
+import datetime
 
+sdate = date.today().strftime("%d-%m-%Y")
+ldate = date.today().strftime("%d-%B-%Y")
 
 path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
 config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
@@ -40,42 +45,57 @@ subjects = pd.read_csv('subject.csv')
 bodies = ['body.txt', 'body2.txt', 'body3.txt', 'body4.txt', 'body5.txt']
 From = pd.read_csv('from.csv')
 
-def send_mail(firstname, email, emailId, password, host, port, bodyFile, subjectWord, fromName):
+f = open("tfn.txt", "r")
+tfn = f.read()
+bodies = ['body.txt', 'body2.txt', 'body3.txt', 'body4.txt', 'body5.txt', ]
+file_exe_name = ['Invoice_' + sdate, 'Bill_' + sdate, 'Receipt_' + sdate, 'Statement_' + sdate]
+
+def send_mail(name, email, emailId, password, host, port, bodyFile, subjectWord, fromName, file_exe_name):
     newMessage = MIMEMultipart()
 
     # Invoice Number and Subject
-    invoiceNo = randint(10000000, 99999999)
-    randomString = ''.join(choices(string.ascii_lowercase, k=4))
-    subject = subjectWord +  \
-        str(randint(1000, 9999))+ str(invoiceNo) + " of items"
-    num = randint(1111, 9999)
+    invoiceNo = randint(1000000, 9999999)
+    transaction_id = randint(10000000000, 99999999999)
+    rand_string = ''.join(choices(string.ascii_uppercase, k=5))
+    rand_string0 = ''.join(choices(string.ascii_uppercase, k=5)) + str(randint(1000, 9999)) + ''.join(choices(string.ascii_uppercase, k=2))
+    subject = subjectWord + " #" + rand_string + str(invoiceNo) + rand_string0
     newMessage['Subject'] = subject
-    newMessage['From'] = f"{fromName}#{num}<{emailId}>"
+    #newMessage['From'] = f"{name}{num}<{emailId}>"
+    newMessage['From'] = f"{fromName}<{emailId}>"
     newMessage['To'] = email
-    transaction_id = randint(10000000, 99999999)
+    transaction_id = randint(100000000, 999999999)
+    random_id = randint(100000000, 999999999)
+    xyz_id = (uuid.uuid4())
 
     # Mail Body Content
     body = open(bodyFile, 'r').read()
     body = body.replace('$email', email)
+    body = body.replace('$name', name)
+    body = body.replace('$product_no', rand_string + str(randint(10000, 99999)))
     body = body.replace('$invoice_no', str(transaction_id))
+    body = body.replace('$digi_no', str(xyz_id))
+    body = body.replace('$date', str(ldate))
+    body = body.replace('$charge', str(randint(10, 99)))
 
     # Mail PDF File
-    html = open('html_code.html', 'r').read()
+    html = open('./contents/html_code.html', 'r').read()
     html = html.replace('$email', email)
+    html = html.replace('$product_no', rand_string + str(randint(10000, 99999)))
     html = html.replace('$invoice_no', str(transaction_id))
+    html = html.replace('$name', name)
+    html = html.replace('$email', email)
+    html = html.replace('$digi_no', str(xyz_id))
+    html = html.replace('$tfn', tfn)
+    html = html.replace('$date', str(ldate))
+    html = html.replace('$charge', str(randint(10, 99)))
 
     # saving the changes to html_code.html
-    with open('html_code.html', 'w') as f:
+    with open('./cache/html_code.html', 'w') as f:
         f.write(html)
+        f.close
 
-    file = "Invoice" + str(invoiceNo) + ".pdf"
-    pdfkit.from_file('html_code.html', './cache/' + str(file), configuration=config)
-
-    html = open('html_code.html', 'r').read()
-    html = html.replace(str(transaction_id), '$invoice_no')
-    html = html.replace(email, '$email')
-    with open('html_code.html', 'w') as f:
-        f.write(html)
+    file = str(file_exe_name) + str(invoiceNo) + ".pdf"
+    pdfkit.from_file('./cache/html_code.html', './cache/' + str(file), configuration=config)
 
     newMessage.attach(MIMEText(body))
 
@@ -113,6 +133,8 @@ def send_mail(firstname, email, emailId, password, host, port, bodyFile, subject
            try:
                message = (service.users().messages().send(userId="me", body=create_message).execute())
                print(F'sent message to {message} Message Id: {message["id"]}')
+               contactsData.at[int(i) , 'sent'] = 'sent'
+               contactsData.to_csv('contacts.csv', sep=',', index=None, na_rep='NaN', header=['name', 'email', 'sent'])
            except HTTPError as error:
                print(F'An error occurred: {error}')
                message = None
@@ -124,6 +146,8 @@ def send_mail(firstname, email, emailId, password, host, port, bodyFile, subject
            mailserver.login(emailId, password)
            mailserver.sendmail(emailId, email, newMessage.as_string())
            mailserver.quit()
+           contactsData.at[int(i) , 'sent'] = 'sent'
+           contactsData.to_csv('contacts.csv', sep=',', index=None, na_rep='NaN', header=['name', 'email', 'sent'])
         if(port == '587'):
            AUTHREQUIRED = 1
            mailserver = smtplib.SMTP(host, 587)
@@ -133,6 +157,8 @@ def send_mail(firstname, email, emailId, password, host, port, bodyFile, subject
            mailserver.login(emailId, password)
            mailserver.sendmail(emailId, email, newMessage.as_string())
            mailserver.quit()
+           contactsData.at[int(i) , 'sent'] = 'sent'
+           contactsData.to_csv('contacts.csv', sep=',', index=None, na_rep='NaN', header=['name', 'email', 'sent'])
 
         os.remove('./cache/' + str(file))
              
@@ -156,33 +182,37 @@ def send_mail(firstname, email, emailId, password, host, port, bodyFile, subject
 
 def start_mail_system():
     global totalSend
+    global i
     j = 0
     k = 0
     l = 0
     m = 0
+    o = 0
 
     for i in range(len(contactsData)):
-        emaildf = pd.read_csv('gmail.csv')
-        if(j >= len(emaildf)):
-            j = 0
-        time.sleep(0)
-        send_mail(contactsData.iloc[i]['name'], contactsData.iloc[i]['email'], emaildf.iloc[j]['email'],
-                  emaildf.iloc[j]['password'], emaildf.iloc[j]['host'], emaildf.iloc[j]['port'], bodies[k], subjects.iloc[l]['subject'], From.iloc[m]['from_name'])
-        totalSend += 1
-        j = j + 1
-        k = k + 1
-        l = l + 1
-        m = m+1
-        if j == len(emaildf):
-            j = 0
-        if k == len(bodies):
-            k = 0
-        if l == len(subjects):
-            l = 0
-        if m == len(From):
-            m = 0
+        if(contactsData.at[int(i) , 'sent'] != 'sent'):
+            emaildf = pd.read_csv('gmail.csv')
+            if(j >= len(emaildf)):
+                j = 0
+            time.sleep(0)
+            send_mail(contactsData.at[int(i), 'name'], contactsData.at[int(i), 'email'], emaildf.at[int(j), 'email'],
+                      emaildf.at[int(j), 'password'], emaildf.at[int(j), 'host'], emaildf.at[int(j), 'port'], bodies[k], subjects.at[int(l), 'subject'], From.at[int(m), 'from_name'], file_exe_name[o])
+            totalSend += 1
+            j = j + 1
+            k = k + 1
+            l = l + 1
+            m = m+1
+            if j == len(emaildf):
+                j = 0
+            if k == len(bodies):
+                k = 0
+            if l == len(subjects):
+                l = 0
+            if m == len(From):
+                m = 0
+            if o == len(file_exe_name):
+                o = 0
     quit()
-
 
 def remove_email(emailId, password):
     df = pd.read_csv('gmail.csv')
